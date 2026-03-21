@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import './App.css'
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
-    <h1 className="text-5xl text-red-500 font-bold">
-    I am pradip
-    </h1>
+    <div>
+      <Navbar/>
+    </div>
   );
 }
