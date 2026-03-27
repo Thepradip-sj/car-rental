@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         primary: "#4f46e5",       // main color
-        "primary-dull": "#4338ca" // hover color
+        "primary-dull": "#4338ca",
+        light: "#f1f5f9" ,// hover color
       },
     },
   },
