@@ -16,7 +16,7 @@ const CarCard = ({car}) => {
             </div>
         </div>
         <div className="p-4 sm:p-5">
-            <div classname="flex justify-between items-start mb-2">
+            <div className="flex justify-between items-start mb-2">
                 <div>
                     <h3>{car.brand} {car.model}</h3>
                     <p>{car.category} . {car.year}</p>
