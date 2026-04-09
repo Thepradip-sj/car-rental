@@ -28,7 +28,7 @@ const Footer = () => {
                 `}
             </style>
 
-            <footer className="bg-zinc-50 pt-15 px-4 sm:px-6 md:px-8 lg:px-20">
+            <footer className="bg-zinc-50 pt-15 p-5 sm:px-6 md:px-8 lg:px-20">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col lg:flex-row gap-16 pb-12">
                         <div className="flex-1 max-w-full lg:max-w-[400px]">

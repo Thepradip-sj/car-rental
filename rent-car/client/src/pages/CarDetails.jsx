@@ -14,7 +14,7 @@ function CarDetails() {
     setCar(foundCar);
   }, [id]);
 
-  handleSubmit= async (e)=>{
+  const handleSubmit= async (e)=>{
     e.preventDefault();
   }
 
@@ -96,7 +96,7 @@ function CarDetails() {
 
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500">
+        <form onSubmit={handleSubmit} className="shadow-lg h-max sticky top-20 rounded-xl p-8 space-y-6 text-gray-500">
                 <p className="flex items-center justify-between text-2xl text-gray-800 font-semibold ">{currency}{car.pricePerDay}<span
                 className="text-base text-gray-400 font-normal"> per day </span></p>
                 <hr className="border-borderColor"/>
@@ -106,7 +106,7 @@ function CarDetails() {
                 </div>
                  <div className="flex flex-col gap-3">
                   <label htmlFor="border-borderColor">Return Date</label>
-                  <input type="date" className="border borderColor px-3 py-2 rounded-lg" required id='pickup-date' min={new Date().toISOString().split('T')[0]}></input>
+                  <input type="date" className="border borderColor px-3 py-2 rounded-lg" required id='return-date' min={new Date().toISOString().split('T')[0]}></input>
                 </div>
                 <button className="px-9 py-4 bg-blue-600 rounded-lg text-white w-full cursor-pointer hover:bg-primary-dull">Book Now</button>
                 <div className="flex justify-center">
