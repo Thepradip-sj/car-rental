@@ -1,16 +1,22 @@
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { assets, dummyCarData } from '../assets/assets';
+import Loader from '../components/Loader.jsx';
+import { useEffect,useState } from 'react';
 
-const CarDetails = () => {
+function CarDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [car, setCar] = React.useState(null);
+  const [car, setCar] = useState(null);
+  const currency = import.meta.env.VITE_CURRENCY;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const foundCar = dummyCarData.find((car) => car._id === id);
     setCar(foundCar);
   }, [id]);
+
+  handleSubmit= async (e)=>{
+    e.preventDefault();
+  }
 
   return car ? (
     <div className="p-6 md:px-14 lg:px-24 mt-16">
@@ -23,8 +29,7 @@ const CarDetails = () => {
         <img
           className="rotate-180 w-4"
           src={assets.arrow_icon}
-          alt="back"
-        />
+          alt="back" />
         Back to all cars
       </button>
 
@@ -36,8 +41,7 @@ const CarDetails = () => {
           <img
             src={car.image}
             alt={`${car.brand} ${car.model}`}
-            className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md"
-          />
+            className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md" />
 
           <div className="space-y-6">
 
@@ -54,7 +58,7 @@ const CarDetails = () => {
             {/* Features */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { icon: assets.seat_icon, text: `${car.seating_capacity} Seats` },
+                { icon: assets.seat_icon, text: `${car.seating_capacity} Seats`},
                 { icon: assets.fuel_icon, text: car.fuel_type },
                 { icon: assets.car_icon, text: car.transmission },
                 { icon: assets.location_icon, text: car.location },
@@ -75,31 +79,45 @@ const CarDetails = () => {
               <p className="text-gray-500">{car.description}</p>
             </div>
 
-              {/*Features*/}
-              <div>
-  
-                <h1>Features</h1>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {
-                    ["360 Camera","GPS","Bluetooth","Rear View Mirror","Heated Seats"].map((item)=>(
-                      <li key={item} className="flex items-center text-gray-500">
-                          <img src={assets.check_icon} className="h-4  mr-2" alt=""></img>
-                          {item}
-                      </li>
-                    ))
-                  }
+            {/*Features*/}
+            <div>
 
-                </ul>
-              </div>
+              <h1>Features</h1>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {["360 Camera", "GPS", "Bluetooth", "Rear View Mirror", "Heated Seats"].map((item) => (
+                  <li key={item} className="flex items-center text-gray-500">
+                    <img src={assets.check_icon} className="h-4  mr-2" alt=""></img>
+                    {item}
+                  </li>
+                ))}
+
+              </ul>
+            </div>
 
           </div>
         </div>
-          <form className="shadow-lg h-max  sticky top-18 rounded-xl p-6 space-y-6 text-gray-500"></form>
+        <form onSubmit={handleSubmit} className="shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500">
+                <p className="flex items-center justify-between text-2xl text-gray-800 font-semibold ">{currency}{car.pricePerDay}<span
+                className="text-base text-gray-400 font-normal"> per day </span></p>
+                <hr className="border-borderColor"/>
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="border-borderColor">Pickup Date</label>
+                  <input type="date" className="border borderColor px-3 py-2 rounded-lg" required id='pickup-date' min={new Date().toISOString().split('T')[0]}></input>
+                </div>
+                 <div className="flex flex-col gap-3">
+                  <label htmlFor="border-borderColor">Return Date</label>
+                  <input type="date" className="border borderColor px-3 py-2 rounded-lg" required id='pickup-date' min={new Date().toISOString().split('T')[0]}></input>
+                </div>
+                <button className="px-9 py-4 bg-blue-600 rounded-lg text-white w-full cursor-pointer hover:bg-primary-dull">Book Now</button>
+                <div className="flex justify-center">
+                <p className="justify-center text-gray-500">No credit card required to reserve</p>
+                </div>
+        </form>
       </div>
     </div>
   ) : (
-    <Loader/>
+    <Loader />
   );
-};
+}
 
 export default CarDetails;

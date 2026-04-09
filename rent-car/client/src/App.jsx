@@ -16,7 +16,7 @@ export default function App() {
       {!isOwnerPath && <Navbar setShowlogin={showLogin}/>}
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/car-details:id' element={<CarDetails/>}/>
+        <Route path="/car-details/:id" element={<CarDetails />} />
         <Route path='/cars' element={<Cars/>}/>
         <Route path='/my-bookings' element={<MyBookings/>}/>
       </Routes>
