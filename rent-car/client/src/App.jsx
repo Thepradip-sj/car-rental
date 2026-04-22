@@ -24,7 +24,7 @@ export default function App() {
     <>
 
      {showLogin &&  <Login setShowLogin={setShowLogin}/>}
-      {!isOwnerPath && <Navbar setShowlogin={showLogin}/>}
+      {!isOwnerPath && <Navbar setShowLogin={setShowLogin}/>}
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path="/car-details/:id" element={<CarDetails />} />
