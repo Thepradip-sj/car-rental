@@ -15,15 +15,12 @@ import AddCar from './pages/owner/AddCar';
 import Login from './components/Login';
 
 
-
-
 export default function App() {
   const [showLogin,setShowLogin]=useState(false);
   const isOwnerPath=useLocation().pathname.startsWith('/owner');
   return (
     <>
-
-     {showLogin &&  <Login setShowLogin={setShowLogin}/>}
+      {showLogin &&  <Login setShowLogin={setShowLogin}/>}
       {!isOwnerPath && <Navbar setShowLogin={setShowLogin}/>}
       <Routes>
         <Route path='/' element={<Home/>}/>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Login = ({setShowLogin}) => {
-    const [state, setState] = React.useState("login");
+    const [state, setState] = React.useState("register");
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -13,7 +13,7 @@ const Login = ({setShowLogin}) => {
 
     return (
         <div onClick={()=>setShowLogin(false)} className="fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center text-sm texy-gray-600 bg-black/50">
-        <form onClick={(e)=>e.stopPropagation} onSubmit={onSubmitHandler} className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] text-gray-500 rounded-lg shadow-xl border border-gray-200 bg-white">
+        <form onClick={(e)=>e.stopPropagation()} onSubmit={onSubmitHandler} className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] text-gray-500 rounded-lg shadow-xl border border-gray-200 bg-white">
             <p className="text-2xl font-medium m-auto">
                 <span className="text-indigo-500">User</span> {state === "login" ? "Login" : "Sign Up"}
             </p>
