@@ -14,7 +14,7 @@ const Hero = () => {
                 <option value="">Pickup Location</option>
                 {cityList.map((city)=><option key={city} value={city}>{city}</option>)}
               </select>
-              <p className="px-1 text-sm text-gray-500">{pickupLocation ? pickupLocation : 'Please select location'}</p>
+              <p className="px-4 text-sm text-gray-500">{pickupLocation ? pickupLocation : 'Please select location'}</p>
             </div>
             <div className='flex flex-col items-start gap-2'>
                 <label htmlFor='pickup-date'>Pick-up Date</label>
