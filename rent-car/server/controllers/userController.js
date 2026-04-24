@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 const generateToken=(userId)=>{
     const payload=userId;
-    return jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'7d'});
+    return jwt.sign(payload,process.env.JWT_SECRET);
 }
 
 
@@ -56,5 +56,14 @@ export const loginUser=async(req,res)=>{
     }catch(error){
         console.log(error.message);
         res.json({success:false,message:error.message})
+    }
+}
+
+//Get user data using Token
+export const getUserData=async (req,res)=>{
+    try{
+        const {user}=req;
+    }catch(error){
+        
     }
 }
