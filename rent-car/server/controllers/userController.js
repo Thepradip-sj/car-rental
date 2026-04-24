@@ -2,9 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const generateToken=(userId)=>{
-    const payload=userId;
-    return jwt.sign(payload,process.env.JWT_SECRET);
+const generateToken = (userId) => {
+    return jwt.sign({ id: userId }, process.env.JWT_SECRET);
 }
 
 
@@ -63,7 +62,9 @@ export const loginUser=async(req,res)=>{
 export const getUserData=async (req,res)=>{
     try{
         const {user}=req;
+        res.json({success:true,user});
     }catch(error){
-        
+        console.log(error.message);
+        res.json({success:false,message:error.message})
     }
 }
