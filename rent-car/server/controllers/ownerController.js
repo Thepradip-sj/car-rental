@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import fs from 'fs';
 
 export const changeRoleToOwner=async (req,res)=>{
     try{
@@ -19,6 +20,13 @@ export const addCar=async(req,res)=>{
         const {_id}=req.user;
         let car=JSON.parse(req.body.carData);
         const imageFile=req.File;
+        //upload image to imagekit and get the url
+        const fileBuffer=fs.readFileSync(imageFile.path);
+        await imagekit.upload({
+            file:fileBuffer,
+            fileName:imageFile.originalname,
+            folder:'cars'
+        })
     }catch(error){
         console.log(error.message);
         res.json({success:false,message:error.message});
