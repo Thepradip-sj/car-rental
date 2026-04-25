@@ -11,3 +11,16 @@ export const changeRoleToOwner=async (req,res)=>{
 
     }
 }
+
+//API to list cars..
+
+export const addCar=async(req,res)=>{
+    try{
+        const {_id}=req.user;
+        let car=JSON.parse(req.body.carData);
+        const imageFile=req.File;
+    }catch(error){
+        console.log(error.message);
+        res.json({success:false,message:error.message});
+    }
+}
