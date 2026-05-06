@@ -22,10 +22,10 @@ export const addCar=async(req,res)=>{
         const imageFile=req.File;
         //upload image to imagekit and get the url
         const fileBuffer=fs.readFileSync(imageFile.path);
-        await imagekit.upload({
+        const reponse=await imagekit.upload({
             file:fileBuffer,
             fileName:imageFile.originalname,
-            folder:'cars'
+            folder:'/kcars'
         })
     }catch(error){
         console.log(error.message);
