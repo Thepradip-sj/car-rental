@@ -19,14 +19,30 @@ export const addCar=async(req,res)=>{
     try{
         const {_id}=req.user;
         let car=JSON.parse(req.body.carData);
-        const imageFile=req.File;
+        const imageFile=req.file;
         //upload image to imagekit and get the url
         const fileBuffer=fs.readFileSync(imageFile.path);
-        const reponse=await imagekit.upload({
+        const response=await imagekit.upload({
             file:fileBuffer,
             fileName:imageFile.originalname,
-            folder:'/kcars'
+            folder:'/cars'
         })
+
+        //optimization through imageKit URL transformation
+        var optimizedImageUrl = imagekit.url({
+            path: response.filePath,
+            transformation: [
+                { width: '1280'},
+                {quality:'auto'},
+                {format:'webp'}
+            ]
+        });
+        const image=optimizedImageUrl;
+        await Car.create({  ...car,
+                            image,
+                            owner:_id
+                        });
+        res.json({success:true,message:"Car added successfully"})
     }catch(error){
         console.log(error.message);
         res.json({success:false,message:error.message});
