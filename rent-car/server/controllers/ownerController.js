@@ -106,12 +106,53 @@ export const getDashboardData=async(req,res)=>{
         const cars=await Car.find({owner:_id});
         const bookings=await Booking.find({owner:_id}).populate('car').sort({createdAt:-1});
         const pendingBookings=await Booking.find({owner:_id,status:'pending'});
-        const completedBookings=await Booking.find({owner._id,status:'confirmed'});
-        res.json({success:true,cars,bookings,pendingBookings});
+        const completedBookings=await Booking.find({owner_id:_id,status:'confirmed'});
+        const monthlyRevenue=await bookings.slice().filter(booking=>booking.status==='confirmed').reduce((acc,booking)=>acc+booking.price,0);
+        const dashboardData={
+            totalCars:cars.length,
+            totalBookings:bookings.length,
+            pendingBookings:pendingBookings.length,
+            completeBookings:completedBookings.length,
+            recentBookings:bookings.slice(0,3),
+            monthlyRevenue
+        }
+        res.json({success:true,cars,bookings,pendingBookings,completedBookings,monthlyRevenue});
+
 
     }catch(error){
         console.log(error.message);
         res.json({success:false,message:error.message});
+    }
+}
+
+//API to update user image
+export const updateUserImage=async(req,res)=>{
+    try{
+
+        const {_id}=req.user;
+        //upload image to file Buffer
+        const fileBuffer=fs.readFileSync(imageFile.path);
+        const response=await imageKit.upload({
+            file:fileBuffer,
+            fileName:imageFile.originalname,
+            folder:'/cars'
+        })
+
+         //optimization through imageKit URL transformation
+        var optimizedImageUrl = imageKit.url({
+            path: response.filePath,
+            transformation: [
+                { width: '400'},
+                {quality:'auto'},
+                {format:'webp'}
+            ]
+        });
+        const image=optimizedImageUrl;
+        await User.findByIdAndUpdate(_id,{image});
+        res.json({success:true,message:'Profile image updated successfully',image});
+
+    }catch(error){
+        res.json({success:false,message:error.message})
     }
 }
 
