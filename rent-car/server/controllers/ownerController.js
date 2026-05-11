@@ -1,6 +1,8 @@
 import User from "../models/User.js";
 import fs from 'fs';
 import imageKit from "../configs/imageKit.js";
+import Car from "../models/Car.js";
+import Booking from "../models/Booking.js";
 
 export const changeRoleToOwner=async (req,res)=>{
     try{
@@ -41,9 +43,12 @@ export const addCar=async(req,res)=>{
                             image,
                             owner:_id
                         });
+                        
         res.json({success:true,message:"Car added successfully"})
     }catch(error){
         console.log(error.message);
+        console.log(req.file);
+console.log(req.body);
         res.json({success:false,message:error.message});
     }
 }
@@ -88,7 +93,7 @@ export const deleteCar=async(req,res)=>{
             return res.json({success:false,message:'You are not authorized to perform this action'});
         }
         car.owner=null;
-        car.isAvailable=false;
+        car.available=false;
         await car.save();
         res.json({success:true,message:'Car deleted successfully'});
     }catch(error){
@@ -106,7 +111,7 @@ export const getDashboardData=async(req,res)=>{
         const cars=await Car.find({owner:_id});
         const bookings=await Booking.find({owner:_id}).populate('car').sort({createdAt:-1});
         const pendingBookings=await Booking.find({owner:_id,status:'pending'});
-        const completedBookings=await Booking.find({owner_id:_id,status:'confirmed'});
+        const completedBookings=await Booking.find({owner:_id,status:'confirmed'});
         const monthlyRevenue=await bookings.slice().filter(booking=>booking.status==='confirmed').reduce((acc,booking)=>acc+booking.price,0);
         const dashboardData={
             totalCars:cars.length,
@@ -131,6 +136,7 @@ export const updateUserImage=async(req,res)=>{
 
         const {_id}=req.user;
         //upload image to file Buffer
+        const imageFile=req.file;
         const fileBuffer=fs.readFileSync(imageFile.path);
         const response=await imageKit.upload({
             file:fileBuffer,

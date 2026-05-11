@@ -1,7 +1,7 @@
 import express from "express";
-import { createBooking } from "../controllers/bookingController";
+import { createBooking } from "../controllers/bookingController.js";
 import { authMiddleware } from "../middleware/auth.js";
-import checkAvailabilityofCar from "../controllers/bookingController.js";
+import {checkAvailabilityofCar} from "../controllers/bookingController.js";
 import { getUserBookings } from "../controllers/bookingController.js";
 import { getOwnerBookings } from "../controllers/bookingController.js";
 import { cancelBooking } from "../controllers/bookingController.js";

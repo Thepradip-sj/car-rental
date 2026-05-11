@@ -1,5 +1,5 @@
 import Booking from "../models/Booking.js";
-import Car from "../models/Car";
+import Car from "../models/Car.js";
 
 //Function to check if a car is available for the given dates
 const checkAvailability = async (car,pickupDate,returnDate) => {
@@ -10,9 +10,9 @@ const checkAvailability = async (car,pickupDate,returnDate) => {
         status:'confirmed'
     });
     return bookings.length === 0;
-};
+}
 //check availability of cars based on location and dates
-const checkAvailabilityofCar=async(req,res)=>{
+export const checkAvailabilityofCar=async(req,res)=>{
     try{
         const {location,pickupDate,returnDate}=req.body;
         const cars=await Car.find({location,available:true});
@@ -26,7 +26,7 @@ const checkAvailabilityofCar=async(req,res)=>{
         res.status(500).json({ message: error.message });
     }
 }
-export default checkAvailabilityofCar;
+
 
 //API to Create a Booking
 export const createBooking=async(req,res)=>{
@@ -104,9 +104,45 @@ export const changeBookingStatus=async(req,res)=>{
             return res.json({success:false,message:'You are not authorized to perform this action'});
         }
         booking.status=status;
+        await booking.save();
+
+res.json({
+    success: true,
+    message: "Booking status updated successfully"
+})
 
     }catch(error){
         console.log(error.message);
         res.json({success:false,message:error.message});
     }
 }
+
+export const cancelBooking = async (req, res) => {
+    try {
+        const { bookingId } = req.body;
+
+        const booking = await Booking.findById(bookingId);
+
+        if (!booking) {
+            return res.json({
+                success: false,
+                message: "Booking not found"
+            });
+        }
+
+        booking.status = "cancelled";
+        await booking.save();
+
+        res.json({
+            success: true,
+            message: "Booking cancelled successfully"
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({
+            success: false,
+            message: error.message
+        });
+    }
+};
