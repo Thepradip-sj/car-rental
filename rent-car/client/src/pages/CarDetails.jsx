@@ -65,8 +65,7 @@ function CarDetails() {
               ].map(({ icon, text }) => (
                 <div
                   key={text}
-                  className="flex flex-col items-center bg-light p-4 rounded-lg"
-                >
+                  className="flex flex-col items-center bg-light p-4 rounded-lg">
                   <img src={icon} alt="" className="w-6 h-6 mb-2" />
                   <p className="text-sm">{text}</p>
                 </div>
