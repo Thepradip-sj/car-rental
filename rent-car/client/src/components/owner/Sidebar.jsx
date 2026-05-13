@@ -8,54 +8,34 @@ import toast from 'react-hot-toast';
 const Sidebar = () => {
 
     const { user, axios, fetchUser } = useAppContext();
-
     const location = useLocation();
-
     const [image, setImage] = useState(null);
-
     const updateImage = async () => {
-
         if (!image) return;
-
         try {
-
             const formData = new FormData();
-
             formData.append('image', image);
-
             const { data } = await axios.post(
                 '/api/owner/update-user-image',
                 formData
             );
-
             if (data.success) {
-
                 await fetchUser();
-
                 toast.success(data.message);
-
                 setImage(null);
-
             } else {
                 toast.error(data.message);
             }
-
         } catch (error) {
-
             toast.error(error.message);
-
         }
     };
 
     return (
-
         <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
-
             {/* Profile Image */}
             <div className="group relative">
-
                 <label htmlFor="image">
-
                     <img
                         src={
                             image
@@ -90,7 +70,6 @@ const Sidebar = () => {
             {/* Save Button */}
             {
                 image && (
-
                     <button
                         onClick={updateImage}
                         className="absolute top-0 right-0 flex items-center p-2 gap-1 bg-primary/10 text-primary cursor-pointer rounded-md"
