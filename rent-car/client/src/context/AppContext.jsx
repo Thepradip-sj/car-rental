@@ -13,7 +13,9 @@ export const AppProvider = ({ children }) => {
   const currency = import.meta.env.VITE_CURRENCY;
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [isOwner, setIsOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState(
+   localStorage.getItem("isOwner") === "true"
+);
   const [showLogin, setShowLogin] = useState(false);
   const [pickupDate, setPickupDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
@@ -49,6 +51,7 @@ export const AppProvider = ({ children }) => {
 //function to logout
     const logout=()=>{
         localStorage.removeItem('token');
+        localStorage.removeItem("isOwner");
         setToken(null);
         setUser(null);
         setIsOwner(false);
@@ -66,7 +69,7 @@ export const AppProvider = ({ children }) => {
 
     useEffect(()=>{
         if(token){
-            axios.defaults.headers.common['Authorization']=`${token}`;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             fetchUser();
         }else{
 

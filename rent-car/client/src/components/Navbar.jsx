@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 
 const Navbar = () => {
 
-    const {setShowLogin,user,logout,isOwner,axios,setIsOwner}=useAppContext();
+    const {setShowLogin,token,logout,isOwner,axios,setIsOwner}=useAppContext();
     const location=useLocation();
     const [ open , setOpen]=useState(false);
     const navigate=useNavigate();
@@ -15,9 +15,11 @@ const Navbar = () => {
                 const {data}=await axios.post('/api/owner/change-role');
                 if(data.success){
                     setIsOwner(true);
+                    localStorage.setItem("isOwner", "true");
                     toast.success(data.message);
+                    navigate('/owner');
                 }else{
-                    toast.error(error.message);
+                    toast.error(data.message);
                 }
             }catch(error){
                 toast.error(error.message);
@@ -42,7 +44,7 @@ const Navbar = () => {
             </div>
             <div className="flex max-sm:flex-col items-start sm:items-center gap-6">
                 <button className="cursor-pointer" onClick={()=> isOwner? navigate('/owner'):changeRoleToOwner() }>{isOwner ? 'Dashboard' : 'List Cars'}</button>
-                <button onClick={()=>{user?logout():setShowLogin(true)}} className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg ">{user?'Logout':'Login'}</button>
+                <button onClick={()=>{token?logout():setShowLogin(true)}} className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg ">{token?'Logout':'Login'}</button>
             </div>
     </div>
     <button className="sm:hidden cursor-pointer" aria-label="Menu" onClick={()=>{setOpen(!open)}}>
