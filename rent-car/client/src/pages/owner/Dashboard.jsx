@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { dummyDashboardData, assets } from '../../assets/assets'
 import Title from "../../components/Title"
 import toast from 'react-hot-toast';
+import useAppContext  from '../../context/AppContext';
 
 const Dashboard = () => {
     
@@ -23,18 +24,26 @@ const Dashboard = () => {
         { title: "Confirmed", value: data.completedBookings, icon: assets.carIconColored },
     ];
 
-    const fetchDashboardData = async () => {
-       try{
-            const { data } = await axios.get('/api/owner/dashboard');
-            if(data.success){
-                setData(data.dashboardData);
-            }else{
-                toast.error(data.message);
-            }
-       }catch(error){
-            toast.error(error.message);
+   const fetchDashboardData = async () => {
+   try{
+        const response = await axios.get('/api/owner/dashboard');
+
+        if(response.data.success){
+            setData(response.data.dashboardData || {
+                totalCars: 0,
+                totalBookings: 0,
+                pendingBookings: 0,
+                completeBookings: 0,
+                recentBookings: [],
+                monthlyRevenue: 0,
+            });
+        }else{
+            toast.error(response.data.message);
         }
+   }catch(error){
+        toast.error(error.message);
     }
+}
     useEffect(() => {
         if(isOwner){
             fetchDashboardData();

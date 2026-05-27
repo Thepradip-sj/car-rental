@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import Title from '../../components/owner/Title'
 import { assets } from '../../assets/assets'
+import toast from 'react-hot-toast'
+import useAppContext from '../../context/AppContext'
 
 const AddCar = () => {
+
+  const { axios } = useAppContext();
+
   const [image, setImage] = useState(null)
-  const currency=import.meta.env.VITE_CURRENCY;
+
+  const currency = import.meta.env.VITE_CURRENCY;
+
   const [car, setCar] = useState({
     brand: '',
     model: '',
@@ -12,7 +19,7 @@ const AddCar = () => {
     pricePerDay: 0,
     category: '',
     transmission: '',
-    fueltype: '',
+    fuel_type: '',
     seating_capacity: 0,
     location: '',
     description: '',
@@ -95,7 +102,7 @@ const AddCar = () => {
 
          <div className="flex flex-col w-full">
         <label>Model</label>
-        <input type="text" placeholder="e.g. X5, E-Class M4..." required className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none" value={car.model} onChange={e=>setCar({...car, brand: e.target.value})}/>
+        <input type="text" placeholder="e.g. X5, E-Class M4..." required className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none" value={car.model} onChange={e=>setCar({...car, model: e.target.value})}/>
         </div>
         </div>
         {/*Car Year,Price & Catagory*/}

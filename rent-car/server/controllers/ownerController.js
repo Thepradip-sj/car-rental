@@ -16,40 +16,56 @@ export const changeRoleToOwner=async (req,res)=>{
 }
 
 //API to list cars..
-export const addCar=async(req,res)=>{
+export const addCar = async (req,res)=>{
     try{
-        const {_id}=req.user;
-        let car=JSON.parse(req.body.carData);
-        const imageFile=req.file;
-        //upload image to imagekit and get the url
-        const fileBuffer=fs.readFileSync(imageFile.path);
-        const response=await imageKit.upload({
+
+        const {_id} = req.user;
+
+        if(!req.file){
+            return res.json({
+                success:false,
+                message:"Please upload image"
+            })
+        }
+
+        let car = JSON.parse(req.body.carData);
+
+        const imageFile = req.file;
+
+        const fileBuffer = fs.readFileSync(imageFile.path);
+
+        const response = await imageKit.upload({
             file:fileBuffer,
             fileName:imageFile.originalname,
             folder:'/cars'
-        })
+        });
 
-        //optimization through imageKit URL transformation
-        var optimizedImageUrl = imageKit.url({
+        const optimizedImageUrl = imageKit.url({
             path: response.filePath,
             transformation: [
-                { width: '1280'},
-                {quality:'auto'},
-                {format:'webp'}
+                { width:'1280' },
+                { quality:'auto' },
+                { format:'webp' }
             ]
         });
-        const image=optimizedImageUrl;
-        await Car.create({  ...car,
-                            image,
-                            owner:_id
-                        });
-                        
-        res.json({success:true,message:"Car added successfully"})
+
+        await Car.create({
+            ...car,
+            image: optimizedImageUrl,
+            owner:_id
+        });
+
+        res.json({
+            success:true,
+            message:"Car added successfully"
+        });
+
     }catch(error){
-        console.log(error.message);
-        console.log(req.file);
-console.log(req.body);
-        res.json({success:false,message:error.message});
+        console.log(error);
+        res.json({
+            success:false,
+            message:error.message
+        });
     }
 }
 //API to get all cars of an owner
