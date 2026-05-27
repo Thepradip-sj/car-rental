@@ -83,7 +83,11 @@ export const getOwnerBookings=async(req,res)=>{
         if(req.user.role!=='owner'){
             return res.json({success:false,message:'You are not authorized to access this data'});
         }
-        const bookings=await Booking.find({owner:req.user._id}).populate('car user').select('-user.password').sort({createdAt:-1});
+
+        const bookings = await Booking.find({ owner: req.user._id })
+        .populate('car')
+        .populate('user', '-password')
+        .sort({ createdAt: -1 });
         res.json({success:true,bookings});
     }catch(error){
         console.log(error.message);

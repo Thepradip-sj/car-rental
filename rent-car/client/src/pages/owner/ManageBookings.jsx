@@ -11,29 +11,33 @@ const ManageBookings = () => {
   const [bookings, setBookings] = useState([]);
   const fetchOwnerBookings=async ()=>{
      try{
-      const {data}=await axios.get('/api/bookings/owner');
+      const {data}=await axios.get('/api/bookings/owner-bookings');
       data.success ? setBookings(data.bookings) : toast.error(data.message);
      } catch (error) {
       toast.error('Failed to fetch bookings');
      }
   }
-  const handleStatusChange=async (bookingId,newStatus)=>{
-     try{
-      const {data}=await axios.get('/api/bookings/change-status',{
+ const handleStatusChange = async (bookingId, newStatus) => {
+  try {
+    const { data } = await axios.post(
+      '/api/bookings/change-booking-status',
+      {
         bookingId,
-        status:
-      });
-      if(data.success){
-        toast.success(data.success);
-        fetchOwnerBookings();
-      }else{
-        toast.error(data.message);
+        status: newStatus
       }
-     } catch (error) {
-      toast.error('Failed to fetch bookings');
-     }
+    );
 
+    if (data.success) {
+      toast.success(data.message);
+      fetchOwnerBookings();
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    toast.error(error.message);
   }
+};
 
    useEffect(()=>{
     fetchOwnerBookings()
@@ -69,7 +73,7 @@ const ManageBookings = () => {
                   {booking.pickupDate.split('T')[0]} to {booking.returnDate.split('T')[0]}
                 </td>
 
-                <td className='p-3'>{currency}{booking.price}</td>
+                <td className='p-3'>{currency}{booking.totalPrice}</td>
 
                 <td className='p-3 max-md:hidden'>
                   <span className='bg-gray-100 px-3 py-1 rounded-full text-xs'>offline</span>
@@ -77,7 +81,7 @@ const ManageBookings = () => {
 
                 <td className='p-3'>
                   {booking.status === 'pending' ? (
-                    <select  value={booking.status} className='px-2 py-1.5 mt-1 text-gray-500 border border-borderColor rounded-md outline-none'>
+                    <select  onChange={(e) => handleStatusChange(booking._id, e.target.value)} value={booking.status} className='px-2 py-1.5 mt-1 text-gray-500 border border-borderColor rounded-md outline-none'>
                       <option value="pending">Pending</option>
                       <option value="cancelled">Cancelled</option>
                       <option value="confirmed">Confirmed</option>
@@ -96,6 +100,6 @@ const ManageBookings = () => {
 
     </div>
   )
-}
+};
 
-export default ManageBookings
+export default ManageBookings;
