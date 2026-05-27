@@ -2,15 +2,39 @@ import React, { useEffect, useState } from 'react'
 import Title from '../../components/owner/Title'
 import toast from 'react-hot-toast'
 import {assets,dummyMyBookingsData} from '../../assets/assets'
+import useAppContext from '../../context/AppContext'
 
 const ManageBookings = () => {
 
-  const currency = import.meta.env.VITE_CURRENCY;
+  const { currency, axios } = useAppContext();
 
   const [bookings, setBookings] = useState([]);
   const fetchOwnerBookings=async ()=>{
-     setBookings(dummyMyBookingsData);
+     try{
+      const {data}=await axios.get('/api/bookings/owner');
+      data.success ? setBookings(data.bookings) : toast.error(data.message);
+     } catch (error) {
+      toast.error('Failed to fetch bookings');
+     }
   }
+  const handleStatusChange=async (bookingId,newStatus)=>{
+     try{
+      const {data}=await axios.get('/api/bookings/change-status',{
+        bookingId,
+        status:
+      });
+      if(data.success){
+        toast.success(data.success);
+        fetchOwnerBookings();
+      }else{
+        toast.error(data.message);
+      }
+     } catch (error) {
+      toast.error('Failed to fetch bookings');
+     }
+
+  }
+
    useEffect(()=>{
     fetchOwnerBookings()
   },[])
