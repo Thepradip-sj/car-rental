@@ -4,14 +4,23 @@ import Title from '../components/Title';
 import { dummyMyBookingsData,assets } from '../assets/assets';
 
 const MyBookings = () => {
+  const {axios,user} = useAppContext();
+
   const [bookings,setBookings]=useState([]);
-  const fethchMyBookings=async()=>{
-    setBookings(dummyMyBookingsData);
-  }
+  const fetchMyBookings=async()=>{
+     try{
+      const {data}=await axios.get('/api/bookings/my-bookings');
+      data.success ? setBookings(data.bookings) : toast.error(data.message);
+     }
+      catch (error) {
+      toast.error(error.message);
+     }
+    }
+
   const currency=import.meta.env.VITE_CURRENCY;
   useEffect(()=>{
-    fethchMyBookings()
-  },[])
+    user && fetchMyBookings();
+  },[user])
   return (
     <div className="px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl">
       <Title title='My Bookings'

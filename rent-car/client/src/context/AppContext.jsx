@@ -9,105 +9,161 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
-  const navigate = useNavigate();
-  const currency = import.meta.env.VITE_CURRENCY;
-  const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null);
-  const [isOwner, setIsOwner] = useState(
-   localStorage.getItem("isOwner") === "true"
-);
-  const [showLogin, setShowLogin] = useState(false);
-  const [pickupDate, setPickupDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
-  const  [cars,setCars]=useState([]);
+    const navigate = useNavigate();
 
-  //function to fetch cars
-  const fetchCars=async()=>{
-    try {
-        const {data}=await axios.get('/api/user/cars');
-        if(data.success){
-            setUser(data.user);
-            setIsOwner(data.user?.role==='owner');
-            setCars(data.cars);
-        }else{
-            navigate('/');
+    const currency = import.meta.env.VITE_CURRENCY;
+
+    const [token, setToken] = useState(null);
+    const [user, setUser] = useState(null);
+
+    const [isOwner, setIsOwner] = useState(
+        localStorage.getItem("isOwner") === "true"
+    );
+
+    const [showLogin, setShowLogin] = useState(false);
+
+    const [pickupDate, setPickupDate] = useState('');
+    const [returnDate, setReturnDate] = useState('');
+
+    const [cars, setCars] = useState([]);
+
+    
+
+    const fetchCars = async () => {
+
+        try {
+
+            const { data } = await axios.get('/api/user/cars');
+
+            if (data.success) {
+
+                setCars(data.cars);
+
+            } else {
+
+                toast.error(data.message);
+
+            }
+
+        } catch (error) {
+
+            toast.error(error.message);
+
         }
-    }
-    catch(error){
-      toast.error(error.message);
-    }   
-  }
 
-  //fetch user details
-  const fetchUser=async()=>{
-    try {
-        const {data} =await axios.get('/api/user/cars');
-        data.success ? setCars(data.cars) : toast.error(data.message);
-    } catch (error) {
-      toast.error(error.message);
-    }
-}
+    };
 
-//function to logout
-    const logout=()=>{
+
+
+    const fetchUser = async () => {
+
+        try {
+
+            const { data } = await axios.get('/api/user/data');
+
+            if (data.success) {
+
+                setUser(data.user);
+
+                setIsOwner(data.user?.role === 'owner');
+
+                localStorage.setItem(
+                    "isOwner",
+                    data.user?.role === 'owner'
+                );
+
+            } else {
+
+                toast.error(data.message);
+
+            }
+
+        } catch (error) {
+
+            toast.error(error.message);
+
+        }
+
+    };
+
+  
+
+    const logout = () => {
+
         localStorage.removeItem('token');
-        localStorage.removeItem("isOwner");
+        localStorage.removeItem('isOwner');
+
         setToken(null);
         setUser(null);
         setIsOwner(false);
-        axios.defaults.headers.common['Authorization']='';
+
+        axios.defaults.headers.common['Authorization'] = '';
+
         toast.success('Logged out successfully');
-    }
 
+        navigate('/');
 
-//useEfect to fetch user details on app load
-    useEffect(()=>{
-        const token=localStorage.getItem('token');
-        setToken(token);
-        fetchCars();
-    },[])
+    };
 
-    useEffect(()=>{
-        if(token){
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    // =========================
+    // App Load
+    // =========================
+
+    useEffect(() => {
+
+        const storedToken = localStorage.getItem('token');
+
+        if (storedToken) {
+
+            setToken(storedToken);
+
+            axios.defaults.headers.common['Authorization'] =
+                `Bearer ${storedToken}`;
+
             fetchUser();
-        }else{
 
         }
-    },[token])
 
-//value to be passed to context
-  const value={
-    navigate,
-    currency,
-    axios,
-    token,
-    setToken,
-    user,
-    setUser,
-    isOwner,
-    setIsOwner,
-    showLogin,
-    setShowLogin,
-    pickupDate,
-    setPickupDate,
-    returnDate,
-    setReturnDate,
-    cars,
-    setCars,
-    logout,
-    fetchCars,
-    fetchUser
-  }
-  return (
-    <AppContext.Provider value={ value }>
-      {children}
-    </AppContext.Provider>
-  );
+        fetchCars();
+
+    }, []);
+
+  
+
+    const value = {
+        navigate,
+        currency,
+        axios,
+        token,
+        setToken,
+        user,
+        setUser,
+        isOwner,
+        setIsOwner,
+        showLogin,
+        setShowLogin,
+        pickupDate,
+        setPickupDate,
+        returnDate,
+        setReturnDate,
+        cars,
+        setCars,
+        logout,
+        fetchCars,
+        fetchUser
+    };
+
+    return (
+        <AppContext.Provider value={value}>
+            {children}
+        </AppContext.Provider>
+    );
 };
 
 const useAppContext = () => {
+
     return useContext(AppContext);
+
 };
 
 export default useAppContext;

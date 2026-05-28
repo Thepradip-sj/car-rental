@@ -102,7 +102,7 @@ const ManageCars = () => {
 
                 <td className='flex items-center p-3'>
 
-                  <img onClick={()=>toggleCarAvailability(car._id)} src={car.isAvailable ? assets.eye_close_icon : assets.eye_icon} alt="" className='cursor-pointer'/>
+                  <img onClick={()=>toggleCarAvailability(car._id)} src={car.isAvailable ? assets.eye_icon : assets.eye_close_icon} alt="" className='cursor-pointer'/>
 
                   <img onClick={()=>deleteCar(car._id)} src={assets.delete_icon} alt="" className='cursor-pointer'/>
                 </td>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { dummyDashboardData, assets } from '../../assets/assets'
 import Title from "../../components/Title"
 import toast from 'react-hot-toast';
-import useAppContext  from '../../context/AppContext';
+import useAppContext from '../../context/AppContext'
 
 const Dashboard = () => {
     
@@ -21,7 +21,7 @@ const Dashboard = () => {
         { title: "Total Cars", value: data.totalCars, icon: assets.carIconColored },
         { title: "Total Bookings", value: data.totalBookings, icon: assets.carIconColored },
         { title: "Pending", value: data.pendingBookings, icon: assets.carIconColored },
-        { title: "Confirmed", value: data.completedBookings, icon: assets.carIconColored },
+        { title: "Confirmed", value: data.completeBookings, icon: assets.carIconColored },
     ];
 
    const fetchDashboardData = async () => {
@@ -50,9 +50,6 @@ const Dashboard = () => {
         }
     },[isOwner]);
 
-    useEffect(() => {
-        setData(dummyDashboardData);
-    }, []);
 
     return (
         <div className="px-3 pt-10 md:px-10 flex-1">
