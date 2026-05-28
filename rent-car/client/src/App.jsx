@@ -14,7 +14,7 @@ import ManageBookings from './pages/owner/ManageBookings';
 import AddCar from './pages/owner/AddCar';
 import Login from './components/Login';
 import {Toaster} from 'react-hot-toast';
-import  useAppContext  from './context/AppContext';
+import  {useAppContext}  from './context/AppContext.jsx';
 
 
 export default function App() {

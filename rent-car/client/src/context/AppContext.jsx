@@ -160,10 +160,6 @@ export const AppProvider = ({ children }) => {
     );
 };
 
-const useAppContext = () => {
-
+export const useAppContext = () => {
     return useContext(AppContext);
-
 };
-
-export default useAppContext;

@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react';
 import Title from '../components/Title';
 import { dummyMyBookingsData,assets } from '../assets/assets';
 import toast from 'react-hot-toast';
-import useAppContext from '../context/AppContext';
+import {useAppContext} from '../context/AppContext';
 
 const MyBookings = () => {
   const {axios,user} = useAppContext();

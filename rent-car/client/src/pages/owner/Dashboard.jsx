@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { dummyDashboardData, assets } from '../../assets/assets'
 import Title from "../../components/Title"
 import toast from 'react-hot-toast';
-import useAppContext from '../../context/AppContext'
+import {useAppContext} from '../../context/AppContext.jsx';
 
 const Dashboard = () => {
     

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Title from '../../components/owner/Title'
 import { assets } from '../../assets/assets'
 import toast from 'react-hot-toast'
-import useAppContext from '../../context/AppContext'
+import {useAppContext} from '../../context/AppContext'
 
 const AddCar = () => {
 

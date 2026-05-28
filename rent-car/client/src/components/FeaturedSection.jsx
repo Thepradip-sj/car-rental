@@ -3,12 +3,12 @@ import Title from './Title';
 import { assets } from '../assets/assets';
 import CarCard from './CarCard';
 import { useNavigate } from 'react-router-dom';
-import useAppContext from '../context/AppContext';
+import  {useAppContext}  from "../context/AppContext.jsx";
 
 const FeaturedSection = () => {
 
     const { cars } = useAppContext();
-
+    console.log(cars);
     const navigate = useNavigate();
 
     return (

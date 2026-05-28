@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { assets, dummyCarData } from '../assets/assets';
 import Loader from '../components/Loader.jsx';
 import { useEffect,useState } from 'react';
-import useAppContext from '../context/AppContext.jsx';
+import {useAppContext} from '../context/AppContext.jsx';
 
 function CarDetails() {
   const { id } = useParams();

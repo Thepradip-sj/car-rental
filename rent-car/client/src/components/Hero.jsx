@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {useNavigate} from 'react-router-dom'
 import {assets,cityList} from '../assets/assets'
-import useAppContext from '../context/AppContext';
+import {useAppContext} from '../context/AppContext.jsx';
 
 const Hero = () => {
     const [pickupLocation,setPickupLocation]=useState('');

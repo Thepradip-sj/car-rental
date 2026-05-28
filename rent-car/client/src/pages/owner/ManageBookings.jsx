@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Title from '../../components/owner/Title'
 import toast from 'react-hot-toast'
 import {assets,dummyMyBookingsData} from '../../assets/assets'
-import useAppContext from '../../context/AppContext'
+import {useAppContext} from '../../context/AppContext'
 
 const ManageBookings = () => {
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {dummyUserData}  from '../../assets/assets';
 import { Link } from 'react-router-dom';
 import { assets } from '../../assets/assets';
-import  useAppContext  from '../../context/AppContext';
+import  {useAppContext}  from '../../context/AppContext.jsx';
 
 const NavbarOwner = () => {
     const {user}=useAppContext();

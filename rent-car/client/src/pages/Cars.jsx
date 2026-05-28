@@ -4,7 +4,7 @@ import { assets ,dummyCarData} from '../assets/assets';
 import CarCard from '../components/CarCard';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import useAppContext from '../context/AppContext';
+import {useAppContext} from '../context/AppContext';
 
 const Cars = () => {
   const [searchParams]=useSearchParams();
