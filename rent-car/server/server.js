@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/",(req,res)=>{
-    res.send("Server is running");
+    res.send("Server is running on");
 });
 app.use('/api/user',userRouter);
 app.use('/api/owner',ownerRouter);
