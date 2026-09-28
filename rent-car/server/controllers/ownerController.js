@@ -34,20 +34,18 @@ export const addCar = async (req,res)=>{
 
         const fileBuffer = fs.readFileSync(imageFile.path);
 
+        
         const response = await imageKit.upload({
-            file:fileBuffer,
-            fileName:imageFile.originalname,
-            folder:'/cars'
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: "/cars"
         });
 
+
         const optimizedImageUrl = imageKit.url({
-            path: response.filePath,
-            transformation: [
-                { width:'1280' },
-                { quality:'auto' },
-                { format:'webp' }
-            ]
+            path: response.filePath
         });
+
 
         await Car.create({
             ...car,
@@ -124,24 +122,45 @@ export const toggleCarAvailability = async (req, res) => {
 
 
 //API to Delete a Car
-export const deleteCar=async(req,res)=>{
-    try{
-        const {_id}=req.user;
-        const {carId}=req.body;
-        const car=await Car.findById(carId);
-        //check if the car belongs to the owner
-        if(car.owner.toString()!==_id.toString()){
-            return res.json({success:false,message:'You are not authorized to perform this action'});
+export const deleteCar = async (req, res) => {
+    try {
+        const { _id } = req.user;
+        const { carId } = req.body;
+        console.log("Finding:");
+        // Find the car and verify that it belongs to this owner
+        const car = await Car.findOne({
+            _id: carId,
+            owner: _id
+        });
+        console.log("Cars:",car);
+
+        if (!car) {
+            return res.json({
+                success: false,
+                message: "Car not found or you are not authorized"
+            });
         }
-        car.owner=null;
-        car.available=false;
-        await car.save();
-        res.json({success:true,message:'Car deleted successfully'});
-    }catch(error){
+
+        // Permanently delete from MongoDB
+       const deletedCar = await Car.findByIdAndDelete(carId);
+
+        console.log("Deleted car:", deletedCar);
+
+
+        res.json({
+            success: true,
+            message: "Car deleted successfully"
+        });
+
+    } catch (error) {
         console.log(error.message);
-        res.json({success:false,message:error.message});
+
+        res.json({
+            success: false,
+            message: error.message
+        });
     }
-}
+};
 
 export const getDashboardData=async(req,res)=>{
     try{
