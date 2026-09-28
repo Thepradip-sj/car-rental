@@ -27,7 +27,7 @@ const AddCar = () => {
   const [isLoading, setIsLoading] = useState(false)
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-     if(isLoading) return null
+     if(isLoading) return null;
 
     setIsLoading(true)
     try {

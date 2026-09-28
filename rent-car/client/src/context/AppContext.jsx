@@ -34,10 +34,13 @@ export const AppProvider = ({ children }) => {
         try {
 
             const { data } = await axios.get('/api/user/cars');
+            console.log("data",data);
+            
 
             if (data.success) {
 
                 setCars(data.cars);
+                console.log("Cars:",data.cars)
 
             } else {
 

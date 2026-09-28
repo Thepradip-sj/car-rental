@@ -38,6 +38,7 @@ const Dashboard = () => {
                 monthlyRevenue: 0,
             });
         }else{
+            console.log("response:",response.data.message);
             toast.error(response.data.message);
         }
    }catch(error){

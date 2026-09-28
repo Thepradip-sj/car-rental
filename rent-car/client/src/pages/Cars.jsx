@@ -42,9 +42,11 @@ const Cars = () => {
   useEffect(()=>{
     isSearchData && searchCarAvailability();
   },[])
-  useEffect(()=>{
-    cars.length>0 && !isSearchData && applyFilters();
-  },[]);
+  useEffect(() => {
+    if (!isSearchData) {
+        applyFilters();
+    }
+}, [cars, input]);
 
   return (
     <div>
@@ -57,9 +59,9 @@ const Cars = () => {
         </div>
       </div>
       <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-10">
-        <p className="text-gray-500 max-w-7xl xl:px-20 mx-auto">Showing {cars.length} Cars</p>
+        <p className="text-gray-500 max-w-7xl xl:px-20 mx-auto">Showing {filtrecars.length} Cars</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 xl:px-20 max-w-7xl mx-auto">
-          {cars.map((car,index)=>(
+          {filtrecars.map((car,index)=>(
             <div key={index}>
               <CarCard car={car}/>
               </div>
